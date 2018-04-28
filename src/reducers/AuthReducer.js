@@ -15,7 +15,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  
   switch (action.type) {
     case EMAIL_CHANGED:
       // Create a new object with the properties of state. Create
@@ -28,9 +27,12 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_USER:
       return { ...state, loading: true, error: '' };
     case LOGIN_USER_SUCCESS:
-      return { ...state, user: action.payload, ...INITIAL_STATE};
+      return { ...state,
+        ...INITIAL_STATE,
+        user: action.payload
+      };
     case LOGIN_USER_FAIL:
-      return { ...state, loading: false, error: 'Authenticate Failed.', password: ''};
+      return { ...state, loading: false, error: 'Authenticate Failed.', password: '' };
     default:
       return state;
   }

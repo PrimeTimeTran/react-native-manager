@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
-  // Calls the action creator emailChanged
+
+  onButtonPress() {
+    const { email, password } = this.props;
+    this.props.loginUser({ email, password });
+  }
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
@@ -13,23 +18,31 @@ class LoginForm extends Component {
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
-  
-  onButtonPress() {
-    const { email, password} = this.props;
-    this.props.loginUser({ email, password });
-  }
 
   renderButton() {
     if (this.props.loading) {
       return <Spinner size="large" />;
     }
-    
+
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
         Login
       </Button>
-    )
+    );
   }
+
+  renderError() {
+    if (this.props.error) {
+      return (
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={errorTextStyle}>
+            {this.props.error}
+          </Text>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <Card>
@@ -51,9 +64,11 @@ class LoginForm extends Component {
             value={this.props.password}
           />
         </CardSection>
-        <Text style={styles.errorTextStyle}>
+
+        {this.renderError()}
+        {/* <Text style={errorTextStyle}>
           {this.props.error}
-        </Text>
+        </Text> */}
 
         <CardSection>
           {this.renderButton()}
@@ -62,15 +77,15 @@ class LoginForm extends Component {
     );
   }
 }
-// One way to write it 
-const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading} = auth;
-  
-  return { email, password, error, loading};
+
+const mapReduxStateToProps = ({ auth }) => {
+  const { email, password, error, loading } = auth;
+
+  return { email, password, error, loading };
 };
 
-// Another way to write it 
-// const mapStateToProps = state => {
+// Not using destructuring
+// const mapReduxStateToProps = state => {
 //   return {
 //     email: state.auth.email,
 //     password: state.auth.password,
@@ -78,14 +93,13 @@ const mapStateToProps = ({ auth }) => {
 //   };
 // };
 
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-}
+const errorTextStyle = {
+  fontSize: 20,
+  alignSelf: 'center',
+  color: 'red'
+};
 
-
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })
-(LoginForm);
+export default connect(mapReduxStateToProps, {
+  emailChanged,
+  passwordChanged,
+  loginUser })(LoginForm);
