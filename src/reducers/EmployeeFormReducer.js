@@ -3,13 +3,13 @@ import {
 } from '../actions/types';
 
 const INITITAL_STATE = {
-  name: null,
-  phone: null,
-  shift: null
+  name: '',
+  phone: '',
+  shift: ''
 };
 
 export default (state = INITITAL_STATE, action) => {
-  switch (action.typ) {
+  switch (action.type) {
     case EMPLOYEE_UPDATE:
       // action.payload === { prop: 'name', value: 'jane'}
       // Key interpolation in brackets
