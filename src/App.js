@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import ReduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
-import Router from './Router'
+import Router from './Router';
 
 class App extends Component {
   componentWillMount() {
