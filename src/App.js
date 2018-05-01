@@ -8,6 +8,7 @@ import reducers from './reducers';
 import Router from './Router';
 
 class App extends Component {
+
   componentWillMount() {
     const config = {
       apiKey: 'AIzaSyCr6fEav5uF06L_kuds3FC_2YKW7sV8-gU',
@@ -18,6 +19,7 @@ class App extends Component {
       messagingSenderId: '868764301829'
     };
     firebase.initializeApp(config);
+    console.log('Test!')
   }
 
   render() {

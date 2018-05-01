@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
+
 import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
 
@@ -25,9 +27,12 @@ class LoginForm extends Component {
     }
 
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Login
-      </Button>
+      <Button
+        raised
+        icon={{ name: 'cached' }}
+        title='Login'
+        onPress={() => this.onButtonPress()}
+      />
     );
   }
 
