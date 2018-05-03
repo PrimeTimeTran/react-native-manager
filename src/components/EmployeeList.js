@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { View, Text, ListView } from 'react-native';
-import { connect } from 'react-redux';
 import _ from 'lodash';
+import React, { Component } from 'react';
+import { ListView, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import { employeesFetch } from '../actions';
+import ListItem from './ListItem';
 
 class EmployeeList extends Component {
   componentWillMount() {
@@ -13,7 +14,7 @@ class EmployeeList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // nextProps are next set of props. this.props is the old
+    // nextProps are next set of props. this.props is the old set of props
     this.createDataSource(nextProps);
   }
 
@@ -24,12 +25,25 @@ class EmployeeList extends Component {
     this.dataSource = ds.cloneWithRows(employees);
   }
 
+  renderRow(employee) {
+    return (
+      <ListItem employee={employee}>
+        {employee.name}
+      </ListItem>
+    );
+  }
+
   render() {
     return (
       <View style={styles.employeeListStyle}>
         <SearchBar
-          placeholder='Type Here...' />
-        <Text> EmployeeList </Text>
+          placeholder='Type Here...'
+        />
+        <ListView
+          enableEmptySections
+          dataSource={this.dataSource}
+          renderRow={this.renderRow}
+        />
       </View>
     );
   }
@@ -37,7 +51,8 @@ class EmployeeList extends Component {
 
 const styles = {
   employeeListStyle: {
-    paddingTop: 70
+    paddingTop: 70,
+    flex: 1
   }
 };
 
